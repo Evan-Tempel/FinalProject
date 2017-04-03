@@ -25,7 +25,7 @@ if ask_usr == 1: # Returning User.
 
             usr_passFile = open('test.txt', 'r')
             print(usr_passFile.read())
-            cont = int(input('Would you like to add to this(1) or exit the program(2)?'))
+            cont = int(input('Would you like to add to this(1) or exit the program(2)?')) # Needs to send be sent to a while loop.
 
         elif fileCheck == False: # Users first time signing in, should not have any information
 
@@ -45,7 +45,9 @@ if ask_usr == 1: # Returning User.
             password = getpass.getpass('Password for that username: ')
             password2 = getpass.getpass('Re-enter the password: ')
 
-            if password == password2:
+            if password == password2: # Password check.
+                usr_passFile.write('Username: ' + usr + 'Password: ' + password2)
+                usr_passFile.close()
 
         elif fileCheck == False:
 
@@ -54,6 +56,7 @@ if ask_usr == 1: # Returning User.
         else:
 
             print('Something went wrong, please panic!')
+
         print('We made it to two')
 
     else:
@@ -64,6 +67,6 @@ elif ask_usr == 2: # New user, registration control
 
     print('We made it to 2!')
 
-else:
+else: # Broken, we should never be here.
 
     print('We broke it! :D')
