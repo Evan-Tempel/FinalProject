@@ -23,3 +23,7 @@ def login():
 
 def createDBUser(username, usrPassword):
     conn = pymysql.connect(host='putIPhere', unix_socket='/tmp/mysql.sock', user='root', passwd=None, db='mysql')
+
+
+
+    print('Account creation successful!')

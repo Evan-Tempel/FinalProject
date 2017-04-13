@@ -1,4 +1,4 @@
-import getpass, os.path, sys
+import getpass, os.path, sys, functionFinal
 
 
 version = '0.1'
@@ -49,7 +49,7 @@ if ask_usr == 1: # Returning User.
                 usr_passFile.write('Username: ' + usr + 'Password: ' + password2)
                 usr_passFile.close()
 
-        elif fileCheck == False:
+        elif fileCheck == False: # Users first time. Create a new file.
 
             usr_passFile = open('test.txt', 'w')
 
@@ -66,6 +66,14 @@ if ask_usr == 1: # Returning User.
 elif ask_usr == 2: # New user, registration control
 
     print('We made it to 2!')
+    print('Welcome new user, please follow this wizard to create a new account!')
+    newUsr = str(input('Please enter a Username: '))
+    newPass = getpass.getpass('Please enter your password: ')
+    newPassCheck = getpass.getpass('Please reenter your password: ')
+
+    if newPass == newPassCheck:
+        functionFinal.createDBUser()
+
 
 else: # Broken, we should never be here.
 
