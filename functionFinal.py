@@ -9,9 +9,21 @@ def login():
     askPass = getpass.getpass('Please enter your password: ')
     salt = bcrypt.gensalt()
     hash_PW = bcrypt.hashpw(askPass, salt)
-    # Connect to DB to select username and to select password hash
-    hashEval = (hash_PW == bcrypt.hashpw(askPass, hash_PW))
-    return hashEval
+    conn = pymysql.connect(host='putIPhere', unix_socket='/tmp/mysql.sock', user=ask, passwd=hash_PW, db='PasswordManager')
+
+    cur = conn.cursor()
+    view = input('Would you like to (1) view your list or (2) add to it or (3) exit')
+    li = []
+    if view == '1':
+        print('We made it to 1')
+        cur.execute("SELECT * FROM users")
+    elif view == '2':
+        print('We made it to two')
+    elif view == '3':
+        print('We made it to three')
+    else:
+        print('We\'ve ,ade a grave mistake')
+
 
 def createDBUser(username, usrPassword):
     conn = pymysql.connect(host='putIPhere', unix_socket='/tmp/mysql.sock', user='root', passwd=None, db='mysql')
