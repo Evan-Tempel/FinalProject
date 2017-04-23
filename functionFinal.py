@@ -13,10 +13,23 @@ def login():
     hashEval = (hash_PW == bcrypt.hashpw(askPass, hash_PW))
     return hashEval
 
-def createDBUser(username, usrPassword):
-    conn = pymysql.connect(host='putIPhere', unix_socket='/tmp/mysql.sock', user='root', passwd=None, db='mysql')
+def createDBUser():
+    conn = pymysql.connect(host='localhost', user='root', passwd='Badguy2112', db='test')
 
-    # Create the user inside of the database.
+    user1 = input('PLease enter the username: ')
+
+    userPasswd = getpass.getpass('Please enter the password: ')
+    userPasswdcheck = getpass.getpass('Please confirm the password: ')
+    if userPasswd == userPasswdcheck:
+        cur = conn.cursor()
+        cur.execute('CREATE USER %s@localhost IDENTIFIED BY %s', (user1, userPasswd))
+
+        cur.execute('CREATE TABLE %s (username VARCHAR(50) DEFAULT NULL, usrpassword CHAR(61))' % user1)
+
+
+        cur.execute('GRANT ALL PRIVILEGES ON user.%s TO %s@localhost' % (user1, user1))
+
+
     print('Account creation successful!')
 
 def createUsr():
