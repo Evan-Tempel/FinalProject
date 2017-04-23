@@ -28,6 +28,14 @@ while check == True:
 
 
 
+
+
+
+
+
+
+
+
 """ 
 
 Potentially outdated. This is hopefully being moved to mainly functions.

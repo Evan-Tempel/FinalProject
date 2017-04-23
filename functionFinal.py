@@ -9,12 +9,18 @@ def login():
     askPass = getpass.getpass('Please enter your password: ')
     salt = bcrypt.gensalt()
     hash_PW = bcrypt.hashpw(askPass, salt)
+
+
     # Connect to DB to select username and to select password hash
+    conn = pymysql.connect(host='localhost', user='ask', passwd=hash_PW, db='test')
+
+
+
     hashEval = (hash_PW == bcrypt.hashpw(askPass, hash_PW))
     return hashEval
 
 def createDBUser():
-    conn = pymysql.connect(host='localhost', user='root', passwd='Badguy2112', db='test')
+    conn = pymysql.connect(host='localhost', user='root', passwd=getpass.getpass('Please enter password'), db='test')
 
     user1 = input('PLease enter the username: ')
 
