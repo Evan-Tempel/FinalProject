@@ -1,4 +1,4 @@
-import getpass, os.path, sys, functionFinal
+import getpass, os.path, sys, functionFinal, bcrypt
 
 
 version = '0.1'
@@ -9,6 +9,28 @@ ask_usr = int(input('Are you a return user(1)? or a new user(2)? '))
 
 fileCheck = os.path.isfile('test.txt')
 
+check = True
+
+while check == True:
+    print('We made it!')
+
+
+    if ask_usr == '1':
+
+        functionFinal.login()
+
+    elif ask_usr == '2':
+
+        functionFinal.createDBUser()
+
+
+
+
+
+
+""" 
+
+Potentially outdated. This is hopefully being moved to mainly functions.
 if ask_usr == 1: # Returning User.
 
     print('Welcome back returning user.')
@@ -78,3 +100,4 @@ elif ask_usr == 2: # New user, registration control
 else: # Broken, we should never be here.
 
     print('We broke it! :D')
+"""
