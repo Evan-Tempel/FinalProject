@@ -1,11 +1,27 @@
-import getpass, bcrypt, pymysql, random, string
+import getpass, bcrypt, pymysql, random, string, os.path
 
 
 saltpass = bcrypt.gensalt()
 
+if os.path.isfile('saltfile.txt') == False:
+    depass = saltpass.decode('utf-8')
+
+    f = open('saltfile.txt', 'w')
+    f.write(depass)
+    f.close()
+
+
+elif os.path.isfile('saltfile.txt') == True:
+    f = open('saltfile.txt', 'r')
+    global saltpass
+    reading = f.readline()
+    saltpass = reading.encode('utf-8')
+
+
+
 def login():
 
-    username = input('Please enter a username')
+    username = input('Please enter a username: ')
     password = getpass.getpass('Please enter the password: ')
 
     enpass = password.encode('utf-8')
@@ -35,7 +51,7 @@ def createDBUser():
 
     cur.execute('CREATE USER %s@192.168.1.9 IDENTIFIED BY %s', (createUsr, depass))
     cur.execute('CREATE TABLE %s (username VARCHAR(50) DEFAULT NULL, userpassword CHAR(76))' % createUsr)
-    cur.execute('GRANT ALL PRIVILEGES ON *.* TO %s@192.168.1.9', createUsr)
+    cur.execute('GRANT ALL PRIVILEGES ON %s.* TO %s@192.168.1.9' % (createUsr,createUsr))
 
     print('Account creation successful!')
 
@@ -59,28 +75,25 @@ def returningUsr(username, password):
         newPass = getpass.getpass('Please enter a password: ')
         newPassCheck = getpass.getpass('Please re-enter the password: ')
         if newPass == newPassCheck:
-            enpass = newPass.encode('utf-8')
-            hash_PW = bcrypt.hashpw(enpass, saltpass)
-
-            depass = hash_PW.decode('utf-8')
-
-            cur.execute('INSERT INTO %s VALUES ("%s", "%s")' % (username, askAccnt, depass))
+            cur.execute('INSERT INTO %s VALUES ("%s", "%s")' % (username, askAccnt, newPassCheck))
             conn.commit()
 
-    elif askPass == '2':
+    if askPass == '2':
         askAccnt = str(input('Please give an account name: '))
 
         ranString = ''.join(
             random.SystemRandom().choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in
             range(24))
 
-        enpass = ranString.encode('utf-8')
-        hash_PW = bcrypt.hashpw(enpass, saltpass)
-
-        depass = hash_PW.decode('utf-8')
-
-        cur.execute('INSERT INTO %s VALUES ("%s", "%s")' % (username, askAccnt, depass))
+        cur.execute('INSERT INTO %s VALUES ("%s", "%s")' % (username, askAccnt, ranString))
         conn.commit()
 
-    elif askPass == '3':
-        cur.execute('SELECT * FROM %s')
+    if askPass == '3':
+
+        cur.execute('USE %s' % username)
+
+        cur.execute('SELECT * FROM %s' % username)
+        tu = cur.fetchall()
+        li = list(tu)
+        for x in li:
+            print(x)

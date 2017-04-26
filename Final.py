@@ -26,8 +26,6 @@ while check == True:
         elif ask == 'n':
             check == True
             ask_usr = '1'
-        else:
-            print('You broke me')
 
     elif ask_usr == '2':
 
