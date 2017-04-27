@@ -10,13 +10,14 @@ ask_usr = str(input('Are you a return user(1)? or a new user(2)? '))
 
 check = True
 
+username, password = functionFinal.login()
+
 while check == True:
     print('We made it!')
 
 
     if ask_usr == '1':
 
-        username, password = functionFinal.login()
         functionFinal.returningUsr(username, password)
 
         ask = input('Would you like to exit?(y/n) ')
